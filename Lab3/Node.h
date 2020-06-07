@@ -62,6 +62,7 @@ namespace trees {
 			else
 				throw std::invalid_argument("Node is not the right size!");
 		}
+		
 	public:
 		T GetContent()
 		{
@@ -189,6 +190,12 @@ namespace trees {
 					*ss << "(" << GetChild(i)->GetContent() << ";" << GetContent() << ") ";
 					GetChild(i)->SavePairs(ss);
 				}
+			}
+		}
+		void SubTreeFromPairs(std::vector<std::pair<T, T>>& pairs) {
+			
+			for (int i = 0; i < pairs.size(); i++) {
+				
 			}
 		}
 		private:

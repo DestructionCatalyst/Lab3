@@ -35,6 +35,13 @@ namespace trees {
 		
 			root = new Node<T>(str, num, index);
 		}
+		NTree(std::string str, int num):
+			n(num)
+		{
+			std::vector<std::pair<T, T>> pairs = parse_pairs(str);
+
+			root = new Node<T>(n, find_root(pairs))
+		}
 	public:
 		Node<T>* Find(T value)
 		{
@@ -190,6 +197,7 @@ namespace trees {
 
 			return ss.str();
 		}
+		
 		
 
 	};
