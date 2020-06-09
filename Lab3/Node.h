@@ -59,7 +59,7 @@ namespace trees {
 						SetChild(trueIndex, new Node<T>(str_nodes[i], num, ind)),
 						childCount++;
 					else if (ind[i] == 0)
-						SetContent(parse_single<T>(str_nodes[i]));
+						SetContent(parse<T>(str_nodes[i]));
 					else 
 						throw std::invalid_argument("String format exception!");
 				}
@@ -178,7 +178,7 @@ namespace trees {
 					acc = f(GetContent(), acc);
 					
 				}
-				else if (GetChild(trueIndex) != nullptr) {
+				else if ((GetChild(trueIndex) != nullptr)) {
 					acc = GetChild(trueIndex)->Reduce(f, ind, acc);
 					
 				}

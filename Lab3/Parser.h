@@ -12,10 +12,10 @@ namespace trees {
 	std::string trim(std::string str, const std::string chars = "\t\n\v\f\r ");
 
 	template<class T>
-	std::vector<T> parse(std::string str);
+	std::vector<T> parse_list(std::string str);
 
 	template<class T>
-	T parse_single(std::string str);
+	T parse(std::string str);
 
 	std::vector<std::string> split_pairs(std::string str);
 
@@ -32,7 +32,7 @@ namespace trees {
 
 		for (std::string s : raw_pairs) {
 			tmp = get_pair(s);
-			res.push_back(std::pair<T, T>(parse_single<T>(tmp.first), parse_single<T>(tmp.second)));
+			res.push_back(std::pair<T, T>(parse<T>(tmp.first), parse<T>(tmp.second)));
 		}
 
 		return res;

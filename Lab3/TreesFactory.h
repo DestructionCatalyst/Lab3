@@ -46,23 +46,5 @@ namespace trees {
 		return NTree<T>(ss.str(), n);
 	}
 
-	std::string Depth(int n)
-	{
-		std::stringstream ss;
-
-		for (int i = 1; i <= n; i++)
-			ss << i << " ";
-		ss << 0;
-
-		return ss.str();
-	}
-	std::string Width(int n)
-	{
-		std::stringstream ss;
-
-		for (int i = 0; i <= n; i++)
-			ss << i << " ";
-
-		return ss.str();
-	}
+	
 }

@@ -139,13 +139,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Lab2\Lab2\Complex.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Parser.cpp" />
+    <ClCompile Include="Format.cpp" />
+    <ClCompile Include="Test.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Lab2\Lab2\Complex.hpp" />
+    <ClInclude Include="Format.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="NTree.h" />
     <ClInclude Include="Parser.h" />
+    <ClInclude Include="Test.h" />
     <ClInclude Include="TreesFactory.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

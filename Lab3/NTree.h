@@ -36,7 +36,7 @@ namespace trees {
 		NTree(std::string str, int num, std::string format):
 			n(num)
 		{
-			std::vector<int> index = parse<T>(format);
+			std::vector<int> index = parse_list<T>(format);
 		
 			root = new Node<T>(str, num, index);
 		}
@@ -44,9 +44,9 @@ namespace trees {
 		NTree(std::string str, int num):
 			n(num)
 		{
-			std::vector<std::pair<T, T>> pairs = parse_pairs<int>(str);
+			std::vector<std::pair<T, T>> pairs = parse_pairs<T>(str);
 
-			root = new Node<T>(n, find_root<int>(pairs), pairs);
+			root = new Node<T>(n, find_root<T>(pairs), pairs);
 		}
 
 	public:
@@ -137,13 +137,13 @@ namespace trees {
 		}
 		void CustomMap(std::function<T(T)> f, std::string format)
 		{
-			std::vector<int> index = parse<T>(format);
+			std::vector<int> index = parse_list<int>(format);
 
 			root->CustomMap(f, index);
 		}
 		T Reduce(std::function<T(T, T)> f, std::string format, T acc = T())
 		{
-			const std::vector<int> index = parse<T>(format);
+			const std::vector<int> index = parse_list<int>(format);
 
 			return root->Reduce(f, index, acc);
 		}
@@ -186,7 +186,7 @@ namespace trees {
 
 			std::stringstream ss;
 
-			std::vector<int> index = parse<T>(format);
+			std::vector<int> index = parse_list<int>(format);
 			root->Save(&ss, index);
 
 			return ss.str();

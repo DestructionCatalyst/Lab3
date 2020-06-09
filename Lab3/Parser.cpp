@@ -21,7 +21,7 @@ namespace trees {
 	}
 
 	template<>
-	std::vector<int> parse(std::string str)
+	std::vector<int> parse_list(std::string str)
 	{
 		std::vector<int> vec{};
 		char cur;
@@ -48,12 +48,12 @@ namespace trees {
 	}
 
 	template<>
-	int parse_single(std::string str) {
+	int parse(std::string str) {
 		return stoi(str);
 	}
 
 	template<>
-	double parse_single(std::string str) {
+	double parse(std::string str) {
 		return stod(str);
 	}
 
@@ -94,41 +94,6 @@ namespace trees {
 		
 		return str_pair_t(first, second);
 	}
-	/*
-	template<class T>
-	std::vector<std::pair<T, T>> parse_pairs(std::string str) {
-		std::vector<std::string> raw_pairs = split_pairs(str);
-		str_pair_t tmp;
-		std::vector<std::pair<T, T>> res;
-
-		for (std::string s : raw_pairs) {
-			tmp = get_pair(s);
-			res.push_back(new std::pair<T, T>(parse_single<T>(tmp.first), parse_single<T>(tmp.second)));
-		}
-
-		return res;
-	}*/
-	/*
-	template<class T>
-	T find_root(std::vector<std::pair<T, T>>& pairs)
-	{
-		T tmp;
-		bool isRoot = true;
-
-		for (int i = 0; i < pairs.size(); i++) {
-			tmp = pairs[i].second;
-			isRoot = true;
-			for (int j = 0; j < pairs.size(); j++) {
-				if (tmp == pairs[i].first)
-					isRoot = false;
-			}
-			if (isRoot) {
-				pairs.erase(pairs.begin() + i);
-				return tmp;
-			}
-		}
-		throw std::invalid_argument("Vector format exception!");
-	}*/
 
 	std::vector<std::string> split_to_nodes(std::string str)
 	{
