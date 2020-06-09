@@ -8,26 +8,31 @@
 #define Zero T()
 
 namespace trees {
+
 	template<class T> class NTree {
 	private:
 		Node<T>* root;
 		int n;
 	public:
+		//Tree with default root
 		NTree(int num):
 			n(num)
 		{
 			root = new Node<T>(n);
 		}
+		//Tree with 'content' root
 		NTree(int num, T content) :
 			NTree(num)
 		{
 			root->SetContent(content);
 		}
+		//Tree from existing node (can be with children)
 		NTree(Node<T>* node) :
-			n(node->GetChildCount())
+			n(node->GetCapacity())
 		{
 			root = node;
 		}
+		//Tree from list string
 		NTree(std::string str, int num, std::string format):
 			n(num)
 		{
@@ -35,13 +40,15 @@ namespace trees {
 		
 			root = new Node<T>(str, num, index);
 		}
+		//Tree from pair string
 		NTree(std::string str, int num):
 			n(num)
 		{
-			std::vector<std::pair<T, T>> pairs = parse_pairs(str);
+			std::vector<std::pair<T, T>> pairs = parse_pairs<int>(str);
 
-			root = new Node<T>(n, find_root(pairs))
+			root = new Node<T>(n, find_root<int>(pairs), pairs);
 		}
+
 	public:
 		Node<T>* Find(T value)
 		{
@@ -62,8 +69,7 @@ namespace trees {
 				return true;
 			}
 		}
-	public:
-		//Inserts at selected place, everything there becomes 1st child of inserted
+		//UNSAFE
 		bool Insert(T place, int num, T content)
 		{
 			Node<T>* existing = Find(content);
@@ -82,16 +88,21 @@ namespace trees {
 			else
 				return false;
 		}
+	public:
 		//Inserts at 1st free place, if there isn't, returns false
 		bool Insert(T place, T content)
 		{
 			Node<T>* existing = Find(content);
 			if (existing == nullptr) {
+				
 				Node<T>* placePtr = Find(place);
 					
 				if (placePtr == nullptr)
 					return false;
 				else {
+					placePtr->AddChild(content);
+					return true;
+					/*
 					for (int i = 0; i < n; i++) {
 						Node<T>* tmp = placePtr->GetChild(i);
 						if (tmp == nullptr) {
@@ -101,7 +112,9 @@ namespace trees {
 						}
 					}
 					return false;
+					*/
 				}
+				
 			}
 			else
 				return false;
@@ -198,7 +211,17 @@ namespace trees {
 			return ss.str();
 		}
 		
-		
+		void SavePairsToFile(std::string path)
+		{
+			std::ofstream ofs(path);
+
+			if (ofs) {
+				ofs << SavePairs() << std::endl;
+				ofs.close();
+			}
+			else
+				throw std::runtime_error("Error writing to file!");
+		}
 
 	};
 

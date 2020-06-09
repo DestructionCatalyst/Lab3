@@ -2,25 +2,30 @@
 #include "Node.h"
 #include "NTree.h"
 #include "Parser.h"
+#include "TreesFactory.h"
+
+
 
 using namespace trees;
 int main(){
 
 	Node<int>* n1 = new Node<int>(2, 1);
 	Node<int>* n2 = new Node<int>(2, 3);
-	n1->SetChild(0, n2);
+	n1->AddChild(n2);
 	Node<int>* n3 = new Node<int>(2, 100);
-	n1->SetChild(1, n3);
+	n1->AddChild(n3);
 	Node<int>* n4 = new Node<int>(*n2);
-	n3->SetChild(0, n4);
+	n3->AddChild(n4);
 
-	std::cout << n1->GetContent() << " " << n1->GetChild(0)->GetContent() << " " << n1->GetChild(1)->GetContent() <<
-		" " << n1->GetChild(1)->GetChild(0)->GetContent() << " " << std::endl;
+	std::cout << n1->GetContent() << " " 
+		<< n1->GetChild(0)->GetContent() << " "
+		<< n1->GetChild(1)->GetContent() << " "
+		<< n1->GetChild(1)->GetChild(0)->GetContent() << " " << std::endl;
 
 	NTree<int> tree(4, 6);
-	tree.Insert(6, 0, 1);
-	tree.Insert(6, 1, 2);
-	tree.Insert(6, 0, 10);
+	tree.Insert(6, 10);
+	tree.Insert(10, 1);
+	tree.Insert(6, 2);
 
 	//( ( ( # 2 # # # ) 20 # # # ) 12 ( # 4 # # # ) # # ) 
 	//	12
@@ -64,6 +69,27 @@ int main(){
 	std::cout << tree3.Save("1 0 2 3 4") << std::endl;
 
 	std::cout << tree.SavePairs() << std::endl;
+
+	NTree<int> tree4("(20;12) (2;20) (4;12)", 2);
+
+	NTree<int> tree5 = fromPairFile<int>("BigTree.txt", 4);
+	//NTree<int> tree5("(4;21) (3;4) (2;3) (1;2) (5;4) (6;4) (7;6) (11;21) (16;21) (20;21)", 4);
+
+	int sum = 0;
+	tree5.CustomMap(
+		[&sum](int a)->int
+		{
+			return sum += a;
+		}, Depth(4));
+
+	std::cout << tree5.Save(Width(4)) << std::endl;
+
+	int prod = tree5.Reduce(
+		[](int a, int b) -> int
+		{
+			return (a * b) % 10000007;
+		}, Depth(4), 1);
+	std::cout << prod << std::endl;
 
 	return 0;
 }

@@ -13,7 +13,7 @@ namespace trees {
 	{
 		return str.erase(str.find_last_not_of(chars) + 1);
 	}
-	std::string trim(std::string str, const std::string chars = "\t\n\v\f\r ")
+	std::string trim(std::string str, const std::string chars)
 	{
 		str = ltrim(str, chars);
 		str = rtrim(str, chars);
@@ -94,7 +94,7 @@ namespace trees {
 		
 		return str_pair_t(first, second);
 	}
-
+	/*
 	template<class T>
 	std::vector<std::pair<T, T>> parse_pairs(std::string str) {
 		std::vector<std::string> raw_pairs = split_pairs(str);
@@ -107,10 +107,10 @@ namespace trees {
 		}
 
 		return res;
-	}
-
+	}*/
+	/*
 	template<class T>
-	T find_root(std::vector<std::pair<T, T>> pairs)
+	T find_root(std::vector<std::pair<T, T>>& pairs)
 	{
 		T tmp;
 		bool isRoot = true;
@@ -122,10 +122,13 @@ namespace trees {
 				if (tmp == pairs[i].first)
 					isRoot = false;
 			}
-			if (isRoot)
+			if (isRoot) {
+				pairs.erase(pairs.begin() + i);
 				return tmp;
+			}
 		}
-	}
+		throw std::invalid_argument("Vector format exception!");
+	}*/
 
 	std::vector<std::string> split_to_nodes(std::string str)
 	{

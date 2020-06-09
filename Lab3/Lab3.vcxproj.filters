@@ -32,5 +32,8 @@
     <ClInclude Include="Parser.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="TreesFactory.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
