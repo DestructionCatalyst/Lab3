@@ -50,6 +50,10 @@ namespace trees {
 		}
 
 	public:
+		Node<T>* Root()
+		{
+			return root;
+		}
 		Node<T>* Find(T value)
 		{
 			return root->Find(value);
@@ -69,7 +73,8 @@ namespace trees {
 				return true;
 			}
 		}
-		//UNSAFE
+	public:
+		//Inserts the child and shifts the next ones
 		bool Insert(T place, int num, T content)
 		{
 			Node<T>* existing = Find(content);
@@ -77,18 +82,20 @@ namespace trees {
 				Node<T>* placePtr = Find(place);
 				if (placePtr == nullptr)
 					return false;
+				else if (placePtr->GetChildCount() == placePtr->GetCapacity())
+					return false;
 				else {
-					Node<T>* tmp = placePtr->GetChild(num);
-					Node<T>* newNode = new Node<T>(n, content);
-					placePtr->SetChild(num, newNode);
-					newNode->SetChild(0, tmp);
+					for (int i = placePtr->GetChildCount() - 1; i >= num; i--) {
+						placePtr->SetChild(i + 1, placePtr->GetChild(i));
+					}
+					placePtr->SetChild(num, new Node<T>(n, content));
 					return true;
 				}
 			}
 			else
 				return false;
 		}
-	public:
+	
 		//Inserts at 1st free place, if there isn't, returns false
 		bool Insert(T place, T content)
 		{
@@ -102,17 +109,6 @@ namespace trees {
 				else {
 					placePtr->AddChild(content);
 					return true;
-					/*
-					for (int i = 0; i < n; i++) {
-						Node<T>* tmp = placePtr->GetChild(i);
-						if (tmp == nullptr) {
-							Node<T>* newNode = new Node<T>(n, content);
-							placePtr->SetChild(i, newNode);
-							return true;
-						}
-					}
-					return false;
-					*/
 				}
 				
 			}
@@ -121,12 +117,15 @@ namespace trees {
 		}
 		bool DeleteChild(T item, int num)
 		{
-			--num;
 			Node<T>* placePtr = Find(item);
 			if (placePtr == nullptr)
 				return false;
 			else {
 				placePtr->DeleteChild(num);
+				for (int i = num; i < placePtr->GetChildCount(); i++) {
+					placePtr->SetChild(i , placePtr->GetChild(i + 1));
+				}
+				placePtr->SetChild(placePtr->GetChildCount(), nullptr);
 				return true;
 			}
 		}

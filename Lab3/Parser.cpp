@@ -1,9 +1,8 @@
 #include "Parser.h"
 
+using Arithmetics::Complex;
 
 namespace trees {
-
-	
 
 	std::string ltrim(std::string str, const std::string chars = "\t\n\v\f\r ")
 	{
@@ -56,6 +55,86 @@ namespace trees {
 	double parse(std::string str) {
 		return stod(str);
 	}
+	template<>
+	Complex parse(std::string str) {
+		std::string re = "";
+		std::string final_re = "";
+		std::string im = "";
+		double num_re;
+		double num_im;
+
+		str = trim(str, "() ");
+		
+		auto iter = str.begin();
+		
+		for (int i = 0; i < 2; i++) {
+			while ((iter != str.end()) && (!isdigit(*iter)) && (*iter != '-'))
+				++iter;
+			while ((iter != str.end()) && (*iter != ' ') && (*iter != '+') && (*iter != '*')) {
+				if (isdigit(*iter) || (*iter == '-') || (*iter == '.')) {
+					re += *iter;
+					++iter;
+				}
+			}
+			if ((iter != str.end()) && ((*iter) == '*')) {
+				im = re;
+			}
+			else if (re != ""){
+				final_re = re;
+			}
+			re = "";
+		}
+		try {
+			num_re = stod(final_re);
+		}
+		catch (std::invalid_argument) {
+			num_re = 0;
+		}
+		try {
+			num_im = stod(im);
+		}
+		catch (std::invalid_argument) {
+			num_im = 0;
+		}
+		
+
+		return Complex(num_re, num_im);
+	}
+	template<>
+	Student parse(std::string str)
+	{
+		string attrs[6];
+
+		for (string &a : attrs) {
+			a = "";
+		}
+
+		str = trim(str, "{} ");
+
+		int attr_num = 0;
+		char cur = '\0';
+
+		auto iter = str.begin();
+
+		while (iter != str.end())
+		{
+			cur = *iter;
+			if (cur == ';')
+				++attr_num;
+			else 
+				attrs[attr_num] += cur;
+
+			++iter;
+		}
+
+		return Student(attrs[0], attrs[1], attrs[2], attrs[3], stoi(attrs[4]), (ID_t)stoull(attrs[5]));
+	}
+
+	template<>
+	string parse(std::string str)
+	{
+		return str;
+	}
 
 	std::vector<std::string> split_pairs(std::string str)
 	{
@@ -68,13 +147,13 @@ namespace trees {
 
 		for (int i = 0; i < str.length(); i++) {
 			cur = str.c_str()[i];
-			if (cur == '(') {
+			if (cur == '[') {
 				write = true;	
 			}
 			if (write) {
 				tmp += cur;
 			}
-			if (cur == ')') {
+			if (cur == ']') {
 				write = false;
 				if (tmp.length()) {
 					res.push_back(tmp);
@@ -87,7 +166,7 @@ namespace trees {
 
 	str_pair_t get_pair(std::string str) {
 		
-		str = trim(str, "()");
+		str = trim(str, "[]");
 
 		std::string first = str.substr(0, str.find_first_of(";"));
 		std::string second = str.substr(str.find_first_of(";") + 1);
@@ -106,10 +185,10 @@ namespace trees {
 
 		for (int i = 1; i < str.length() - 1; i++) {
 			cur = str.c_str()[i];
-			if (cur == '(') {
+			if (cur == '[') {
 				depth++;
 			}
-			else if (cur == ')')
+			else if (cur == ']')
 				depth--;
 
 			if (depth > 0) {
@@ -135,8 +214,6 @@ namespace trees {
 		}
 		return res;
 	}
-
-	
 
 	
 }

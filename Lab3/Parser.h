@@ -1,9 +1,13 @@
 #pragma once
 #include <string>
+#include <sstream>
 #include <vector>
 #include <cmath>
 #include <stdexcept>
 #include <utility>
+
+#include "Complex.h"
+#include "Student.h"
 
 namespace trees {
 
@@ -58,4 +62,5 @@ namespace trees {
 		}
 		throw std::invalid_argument("Vector format exception!");
 	}
+	
 }

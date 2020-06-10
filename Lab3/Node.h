@@ -102,12 +102,12 @@ namespace trees {
 		//Re-initialize existing children
 		void SetChild(int num, Node<T>* node)
 		{
-			if ((num < 0) || (num > childCount) || (num >= capacity))
+			if (((num < 0) || (num > childCount) || (num >= capacity)) && (node != nullptr))
 				throw std::out_of_range("Child index is out of bounds!");
 			else 
 				mChildren[num] = node;
 
-			if (num == childCount)
+			if ((num == childCount) && (node != nullptr))
 				childCount++;
 		}
 		//Add new children
@@ -148,6 +148,7 @@ namespace trees {
 			}		
 			delete (childPtr);
 			SetChild(num, nullptr);
+			childCount--;
 		}
 		//For functions where order does not matter
 		void Map(std::function<T(T)> f) {
@@ -207,7 +208,7 @@ namespace trees {
 		void Save(std::stringstream* ss, std::vector<int>& ind)
 		{
 			int trueIndex;
-			*ss << "( ";
+			*ss << "[ ";
 			for (int i = 0; i < ind.size(); i++) {
 				trueIndex = ind[i] - 1;
 				if (trueIndex < 0)
@@ -219,12 +220,12 @@ namespace trees {
 						*ss << "#" << " ";
 				}
 			}
-			*ss << ") ";
+			*ss << "] ";
 		}
 		void SavePairs(std::stringstream* ss) {
 			for (int i = 0; i < capacity; i++) {
 				if (GetChild(i) != nullptr) {
-					*ss << "(" << GetChild(i)->GetContent() << ";" << GetContent() << ") ";
+					*ss << "[" << GetChild(i)->GetContent() << ";" << GetContent() << "] ";
 					GetChild(i)->SavePairs(ss);
 				}
 			}

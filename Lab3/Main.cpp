@@ -18,5 +18,9 @@ int main(){
 
 	TestDoubleTree();
 
+	TestComplexTree();
+
+	TestStringTree();
+
 	return 0;
 }
