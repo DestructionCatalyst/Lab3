@@ -11,6 +11,7 @@ namespace trees {
 	private:
 		string group;
 	public:
+		Student();
 		Student(string firstname,string lastname, string group_,  int age_, ID_t id_ = time(nullptr));
 		Student(string firstname, string midname, string lastname, string group_, int age_, ID_t id_ = time(nullptr));
 		string GetGroup();
@@ -18,5 +19,6 @@ namespace trees {
 		operator std::string();
 	};
 
+	int operator == (Student a, Student b);
 	std::ostream& operator << (std::ostream& stream, Student z);
 }

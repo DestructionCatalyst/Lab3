@@ -17,6 +17,7 @@ namespace trees {
 		string lastName;
 		int age;
 	public:
+		Person();
 		Person(string firstname, string lastname, int age_, ID_t id_ = time(nullptr));
 		Person(string firstname, string midname, string lastname, int age_, ID_t id_ = time(nullptr));
 	public:

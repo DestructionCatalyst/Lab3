@@ -22,5 +22,7 @@ int main(){
 
 	TestStringTree();
 
+	TestStudentTree();
+
 	return 0;
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include "Node.h"
 #include "Parser.h"
+#include "Format.h"
 #include <functional>
 #include <vector>
 #include <sstream>
@@ -58,6 +59,20 @@ namespace trees {
 		{
 			return root->Find(value);
 		}
+		Node<T>* FindFirst(std::function<bool(T)> p, std::string format)
+		{
+			const std::vector<int> index = parse_list<int>(format);
+
+			return root->FindFirst(p, index);
+		}
+		std::vector<Node<T>*> FindAll(std::function<bool(T)> p)
+		{
+			std::vector<Node<T>*> res;
+
+			root->FindAll(p, res);
+
+			return res;
+		}
 	private:
 		//UNSAFE!
 		bool InsertUnsafe(T place, int num, T content)
@@ -95,6 +110,7 @@ namespace trees {
 			else
 				return false;
 		}
+
 	
 		//Inserts at 1st free place, if there isn't, returns false
 		bool Insert(T place, T content)

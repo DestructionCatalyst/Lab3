@@ -1,6 +1,13 @@
 #include "Person.h"
 
 namespace trees {
+	Person::Person():
+		id(time(nullptr)),
+		firstName(""),
+		midName(""),
+		lastName(""),
+		age(0)
+	{}
 	Person::Person(string firstname, string lastname, int age_, ID_t id_) :
 		id(id_),
 		firstName(firstname),

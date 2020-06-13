@@ -136,7 +136,39 @@ namespace trees {
 			}
 			return nullptr;
 		}
+		Node<T>* FindFirst(std::function<bool(T)>& p, const std::vector<int>& index)
+		{
 
+			Node<T>* found = nullptr;
+			int trueIndex;
+			for (int i = 0; i < index.size(); i++) {
+				trueIndex = index[i] - 1;
+				if (trueIndex < 0) {
+					if (p(GetContent()))
+						return this;
+				}
+				else if (GetChild(trueIndex) != nullptr) {
+					found = GetChild(trueIndex)->FindFirst(p, index);
+					if (found != nullptr)
+						return found;
+				}
+					
+			}
+			return nullptr;
+
+		}
+		void FindAll(std::function<bool(T)>& p, std::vector<Node<T>*>& vec)
+		{
+			if (p(GetContent()))
+				vec.push_back(this);
+
+			for (int i = 0; i < GetChildCount(); i++) {
+
+				if (GetChild(i) != nullptr) {
+					GetChild(i)->FindAll(p, vec);
+				}
+			}
+		}
 		void DeleteChild(int num) {
 			Node<T>* childPtr = GetChild(num);
 			Node<T>* grandchildPtr;

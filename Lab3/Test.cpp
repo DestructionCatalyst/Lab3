@@ -4,6 +4,7 @@ using trees::NTree;
 using trees::Node;
 using Arithmetics::Complex;
 using std::string;
+using trees::Student;
 
 void TestNodes()
 {
@@ -93,6 +94,21 @@ void TestBigTree()
 		}, trees::DepthFormat(4), 1);
 	std::cout << prod << std::endl;
 
+	Node<int>* eight = tree5.FindFirst(
+		[](int a)->bool
+		{
+			return a % 8 == 0;
+		},trees::DepthFormat(4)
+	);
+	std::cout << eight->GetContent() << std::endl;
+
+	std::vector<Node<int>*> even = tree5.FindAll(
+		[](int a)->bool
+		{
+			return a % 2 == 0;
+		}
+	);
+
 	int sum = 0;
 	tree5.CustomMap(
 		[&sum](int a)->int
@@ -109,8 +125,6 @@ void TestBigTree()
 		}, trees::WidthFormat(4));
 
 	std::cout << tree5.Save(trees::WidthFormat(4)) << std::endl;
-
-	
 
 	unsigned long long end_time = clock();
 
@@ -148,8 +162,6 @@ void TestDoubleTree()
 		}, trees::WidthFormat(4));
 
 	std::cout << tree5.Save(trees::WidthFormat(4)) << std::endl;
-
-
 
 	unsigned long long end_time = clock();
 
@@ -234,3 +246,48 @@ void TestStringTree()
 	std::cout << std::endl;
 }
 
+void TestStudentTree()
+{
+	NTree<Student> tree5 = trees::fromPairFile<Student>("StudentTree.txt", 4);
+
+	unsigned long long start_time = clock();
+
+	tree5.CustomMap(
+		[](Student a)->Student
+		{
+			a.SetAge(a.GetAge() + 1);
+			return a;
+		}, trees::DepthFormat(4));
+
+	trees::ID_t id = 6000000;
+	Node<Student>* mary = tree5.FindFirst(
+		[id](Student s) -> bool
+		{
+			return s.GetID() == id;
+		}, trees::DepthFormat(4)
+	);
+	Student marriedMary = mary->GetContent();
+	marriedMary.SetLastName("Ivanova");
+	mary->SetContent(marriedMary);
+
+	id = 8000000;
+
+	Node<Student>* vasyan = tree5.FindFirst(
+		[id](Student s) -> bool
+		{
+			return s.GetID() == id;
+		}, trees::DepthFormat(4)
+			);
+	Student cyberVasyan = vasyan->GetContent();
+	cyberVasyan.SetGroup("B19-504");
+	vasyan->SetContent(cyberVasyan);
+	
+
+	std::cout << tree5.Save(trees::WidthFormat(4)) << std::endl;
+
+	unsigned long long end_time = clock();
+
+	std::cout << "Execution time: " << static_cast<float>(end_time - start_time) / CLOCKS_PER_SEC << " s" << std::endl;
+
+	std::cout << std::endl;
+}

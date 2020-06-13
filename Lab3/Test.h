@@ -15,3 +15,4 @@ void TestBigTree();
 void TestDoubleTree();
 void TestComplexTree();
 void TestStringTree();
+void TestStudentTree();

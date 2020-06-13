@@ -1,6 +1,9 @@
 #include "Student.h"
 
 namespace trees {
+	Student::Student() :
+		group("")
+	{}
 	Student::Student(string firstname, string lastname, string group_, int age_, ID_t id_):
 		Person(firstname, lastname, age_, id_),
 		group(group_)
@@ -19,8 +22,13 @@ namespace trees {
 	}
 	Student::operator std::string()
 	{
-		return "{" + GetFirstName() + ";" + GetMiddleName() + ";" + GetLastName() + ";" + GetGroup() + ";"
-			+ to_string(GetAge()) + ";" + to_string(GetID()) + "}";
+		return "{" + GetLastName() + "," + GetFirstName() + "," + GetMiddleName() + "," + GetGroup() + ","
+			+ to_string(GetAge()) + "," + to_string(GetID()) + "}";
+	}
+
+	int operator == (Student a, Student b)
+	{
+		return a.GetID() == b.GetID();
 	}
 
 	std::ostream& operator << (std::ostream& stream, Student z) {

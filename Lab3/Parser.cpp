@@ -119,7 +119,7 @@ namespace trees {
 		while (iter != str.end())
 		{
 			cur = *iter;
-			if (cur == ';')
+			if (cur == ',')
 				++attr_num;
 			else 
 				attrs[attr_num] += cur;
@@ -127,7 +127,7 @@ namespace trees {
 			++iter;
 		}
 
-		return Student(attrs[0], attrs[1], attrs[2], attrs[3], stoi(attrs[4]), (ID_t)stoull(attrs[5]));
+		return Student(attrs[1], attrs[2], attrs[0], attrs[3], stoi(attrs[4]), (ID_t)stoull(attrs[5]));
 	}
 
 	template<>
